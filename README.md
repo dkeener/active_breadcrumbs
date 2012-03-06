@@ -37,18 +37,20 @@ is tedious. The following code overrides the separator in an initializers
 file (which will be placed in the config/initializers directory of your Rails
 web site):
 
-  module ActionView
-    class Base
+    module ActionView
 
-      # Overrides the version of this method that is provided by the
-      # active_breadcrumbs gem.
+      class Base
+
+        # Overrides the version of this method that is provided by the
+        # active_breadcrumbs gem.
  
-      def breadcrumb_separator_right
-        image_tag('triangle_right.gif')
+        def breadcrumb_separator_right
+          image_tag('triangle_right.gif')
+        end
+
       end
 
     end
-  end
 
 Initial Genesis
 ===============
