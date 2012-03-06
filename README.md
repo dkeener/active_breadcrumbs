@@ -38,7 +38,6 @@ file (which will be placed in the config/initializers directory of your Rails
 web site):
 
   module ActionView
- 
     class Base
 
       # Overrides the version of this method that is provided by the
