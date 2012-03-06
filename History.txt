@@ -1,0 +1,81 @@
+== 0.5.0 / 2012-02-20
+
+* The breadcrumbs string that is returned is now html_safe for maximum
+  convenience.
+
+== 0.4.0 / 2012-02-14
+
+Some minor enhancements to ensure that the gem functions out-of-the-box with
+support for graphic separators between the breadcrumbs.
+
+* 1 Added a "separator" option to the breadcrumbs method.
+
+      breadcrumbs(['Home', root_path, 'Admin', admin_path],
+        :direction => 'left', :separator => '&lt;')
+
+* 2 Values for the "direction" option can now be symbols.
+
+      breadcrumbs(['Home', root_path, 'Admin', admin_path],
+        :direction => :left)
+
+== 0.3.0 / 2012-02-07
+
+The plugin was converted into a gem, verified on Ruby 1.8.7, and updated for
+Ruby 1.9.x and Rails 3.x.
+
+* 1 The name of the gem was changed to "active_breadcrumbs" because the
+    name "breadcrumbs" was already taken at Rubygems.org.
+
+* 2 Added Ruby magic so the breadcrumbs method becomes available in both the
+    ActionView and ActionController Rails modules. The benefit is that
+    the breadcrumbs method can be used in views or controllers without the
+    user having to use any code inclusion mechanism ('requires', etc.).
+    
+* 3 Added better documentation.
+
+* 4 Put the gem repository on gitHub for public consumption.
+
+
+== 0.2.0 / 2009-12-21
+
+The major change was that the breadcrumbs functionality was organized as a
+plugin.
+
+* 1 The format of a breadcrumbs trail changed in this version. A typical
+    example:
+
+      @cookie_trail = breadcrumbs([ 'Home', root_url,
+                                    'Admin', admin_url,
+                                    'Presentations', admin_presentations_url],
+                                    :direction => 'left')
+
+    It would have been nice to use an ordered Hash (key entry order is 
+    preserved in Ruby 1.9.x) for the individual breadcrumbs, but a lot of
+    people are still using Rails 3.x with Ruby 1.8.7, which does not have
+    ordered hashes. It's still a simpler format than previously.
+
+* 2 Easily used in views or controllers.
+
+* 3 Accompanied by another blog entry (also now slightly outdated)..
+
+    Creating a Breadcrumb Trail in Rails, Part 2
+    http://www.keenertech.com/articles/2009/12/21/creating-a-breadcrumb-trail-in-rails-part-2
+
+
+== 0.1.0 / 2008-06-18
+
+* 1 Supported the creation of a very simple breadcrumbs trail. Perfect for a
+    structure-based breadcrumbs trail.
+
+* 2 Breadcrumbs trails can be specified using the following format:
+
+      <%= show_breadcrumbs( [ 'Home', ['main'],
+                              'Tools', ['tools'],
+                              'Antimatter', ['tools', 'antimatter']], 
+                            :direction => 'left') %>
+
+* 3 Accompanied by a blog entry (now slightly outdated):
+ 
+    Creating a Breadcrumb Trail in Rails, Part 1
+    http://www.keenertech.com/articles/2008/06/18/creating_a_breadcrumbs_trail1
+
