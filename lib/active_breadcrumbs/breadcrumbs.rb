@@ -2,6 +2,8 @@ module ActiveBreadcrumbs
 
   module Breadcrumbs
 
+    BREADCRUMB_SIZE_LIMIT = 30
+
     def self.included(klass)
       klass.send(:extend, ClassMethods)
       klass.send(:include, InstanceMethods)
@@ -83,10 +85,11 @@ module ActiveBreadcrumbs
   
       def build_crumb(title, url)
         str = ""
+        xtitle = title.truncate(breadcrumb_size_limit)
         if is_external_breadcrumb?(url)
-          str += "<a href=\"#{url}\" class=\"bt_external\">#{title}</a>"
+          str += "<a href=\"#{url}\" class=\"bt_external\">#{xtitle}</a>"
         else
-          str += "<a href='#{url}'>#{title}</a>"
+          str += "<a href='#{url}'>#{xtitle}</a>"
         end
         str
       end
@@ -106,6 +109,14 @@ module ActiveBreadcrumbs
   
       def breadcrumb_separator_right
         "&gt;"
+      end
+      
+      # Returns the maximum allowed size of an individual breadcrumb item,
+      # which is defined by the BREADCRUMB_SIZE_LIMIT constant. This method
+      # can be overridden to increase the size limit for all breadcrumbs.
+      
+      def breadcrumb_size_limit
+        BREADCRUMB_SIZE_LIMIT
       end
   
     end # InstanceMethods
