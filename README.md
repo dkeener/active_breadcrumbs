@@ -1,11 +1,11 @@
 active_breadcrumbs
-===========
+==================
 
 This gem makes it easy to generate breadcrumb trails in a Rails application.
 The emphasis is on "structural" breadcrumbs, where a breadcrumb trail reflects
 the logical structure of a web site (as opposed to a "dynamic" trail, which
 reflects where the user has been - for which I humbbly suggest the user take
-advantage of the browser's Back button)..
+advantage of the browser's Back button).
 
 To generate a breadcrumb trail:
 
@@ -46,6 +46,22 @@ web site):
  
         def breadcrumb_separator_right
           image_tag('triangle_right.gif')
+        end
+
+      end
+
+    end
+
+Individual breadcrumb titles are gracefully truncated to 30 characters by
+default. As with breadcrumb separators, this can be overridden for all
+breadcrumbs if needed.
+
+    module ActionView
+
+      class Base
+
+        def breadcrumb_size_limit
+          WHATEVER_YOUR_SIZE_LIMIT_IS
         end
 
       end
