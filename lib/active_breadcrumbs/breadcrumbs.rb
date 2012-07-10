@@ -85,7 +85,7 @@ module ActiveBreadcrumbs
   
       def build_crumb(title, url)
         str = ""
-        xtitle = title.truncate(breadcrumb_size_limit)
+        xtitle = CGI::escapeHTML(title.truncate(breadcrumb_size_limit))
         if is_external_breadcrumb?(url)
           str += "<a href=\"#{url}\" class=\"bt_external\">#{xtitle}</a>"
         else
