@@ -17,11 +17,11 @@ link text of a breadcrumb followed by the URL/path. Options include:
 
    :direction - Legal values of :left and :right, where :right means that the
                 trails runs to the right, or vice versa for :left. Defaults
-		to :right.
+                to :right.
 
    :separator - The separator to use between breadcrumbs. By default, the
                 separator will be "&gt;" or "&lt;" depending on the direction,
-		but thedefaults can be overridden by this option.
+                but thedefaults can be overridden by this option.
 
 The breadcrumbs method can be used in both views and controllers. Simply
 include the active_breadcrumbs gem in your Gemfile, and the breadcrumbs

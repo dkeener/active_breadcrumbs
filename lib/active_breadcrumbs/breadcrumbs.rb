@@ -41,7 +41,7 @@ module ActiveBreadcrumbs
             direction = dir
             separator = breadcrumb_separator_left
           end
-	  separator = opts[:separator] if opts[:separator]
+          separator = opts[:separator] if opts[:separator]
         end
     
         str = ""
