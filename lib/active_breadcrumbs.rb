@@ -57,5 +57,7 @@ end  # module ActiveBreadcrumbs
 
 ActiveBreadcrumbs.require_all_libs_relative_to(__FILE__)
 
-ActionController::Base.send :include, ActiveBreadcrumbs::Breadcrumbs
-ActionView::Base.send :include, ActiveBreadcrumbs::Breadcrumbs
+if defined?(ActionController::Base)
+  ActionController::Base.send :include, ActiveBreadcrumbs::Breadcrumbs
+  ActionView::Base.send :include, ActiveBreadcrumbs::Breadcrumbs
+end

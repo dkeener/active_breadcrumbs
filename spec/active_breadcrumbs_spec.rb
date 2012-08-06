@@ -6,15 +6,15 @@ describe ActiveBreadcrumbs do
   describe ": Utilities - " do
      
     before(:each) do
-      
+      @obj = BreadcrumbsTester.new
     end
 
     it "is_external_breadcrumb? can identify non-local URLs" do
-      xml = File.read(File.join(Xsd::UIEF_PATH, 'uief_sample_cir.xml'))
-      xml.should_not be_nil
-      
-      errs = @cir_xsd.valid?(xml)
-      errs.should == []
+      @obj.is_external_breadcrumb?('http://www.external.com').should be == true
+    end
+    
+    it "is_external_breadcrumb? can identify local URLs" do
+      @obj.is_external_breadcrumb?('internal').should be == false
     end
 
   end
