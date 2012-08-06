@@ -1,6 +1,7 @@
 module ActiveBreadcrumbs
 
   module Breadcrumbs
+    require 'CGI'
 
     BREADCRUMB_SIZE_LIMIT = 30
 
@@ -30,20 +31,20 @@ module ActiveBreadcrumbs
       #         'Tools', 'tools_url',
       #         'Antimatter', 'antimatter_url'], 
       #        :direction => 'left',
-      #         ;separator => "&gt;") %>
-  
+      #        :separator => "&gt;") %>
+
       def breadcrumbs(crumbs, opts = nil)
         direction = 'right'                        # Default direction
         separator = breadcrumb_separator_right     # Default separator
         if opts != nil
-          dir = opts[:direction]
+          dir = opts[:direction].to_s
           if dir == 'left'
             direction = dir
             separator = breadcrumb_separator_left
           end
           separator = opts[:separator] if opts[:separator]
         end
-    
+
         str = ""
         if crumbs.size > 0
           str += '<div id="breadcrumbs">'
@@ -67,10 +68,10 @@ module ActiveBreadcrumbs
 
           str += '</div>'
         end
-    
-        str.html_safe
+
+        defined?(ActionController::Base) ? str.html_safe : str
       end
-    
+
       # Returns TRUE if the provided value is an external URL and FALSE if it
       # represents the name of a controller. External URL's can be easily
       # distinguished because they begin with "http".
@@ -78,14 +79,14 @@ module ActiveBreadcrumbs
       def is_external_breadcrumb?(val)
         val.to_s.start_with?('http')
       end
-  
+
       # Returns a string containing the HTML for one breadcrumb link within a
       # breadcrumb trail. The first argument is the title of the link, while the
       # second is the destination URL for the link.
-  
+
       def build_crumb(title, url)
         str = ""
-        xtitle = CGI::escapeHTML(title.truncate(breadcrumb_size_limit))
+        xtitle = CGI::escapeHTML(truncate(title, breadcrumb_size_limit))
         if is_external_breadcrumb?(url)
           str += "<a href=\"#{url}\" class=\"bt_external\">#{xtitle}</a>"
         else
@@ -101,24 +102,30 @@ module ActiveBreadcrumbs
       def breadcrumb_separator_left
         "&lt;"
       end
-  
+
       # Defines the separator used between breadcrumb elements when the
       # breadcrumbs are traversed from left to right, i.e. - the separator
       # points to the right. This is the direction in which most breadcrumb
       # trails are oriented.
-  
+
       def breadcrumb_separator_right
         "&gt;"
       end
-      
+
       # Returns the maximum allowed size of an individual breadcrumb item,
       # which is defined by the BREADCRUMB_SIZE_LIMIT constant. This method
       # can be overridden to increase the size limit for all breadcrumbs.
-      
+
       def breadcrumb_size_limit
         BREADCRUMB_SIZE_LIMIT
       end
-  
+
+      def truncate(str, size)
+        return str if size >= str.size
+        return str[0, size] if str.size <= 3
+        str[0, size -3] + '...'
+      end
+
     end # InstanceMethods
 
   end  # Module
