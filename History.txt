@@ -1,6 +1,11 @@
+== 0.6.1 / 2012-08-07
+
+* 1 Fixed a bad require statement that prevented the gem from working
+     within Rails.
+
 == 0.6.0 / 2012-08-06
 
-* 1 A develop-centric release that includes RSpec tests and support for
+* 1 A developer-centric release that includes RSpec tests and support for
     bundler.
 
 == 0.5.0 / 2012-03-09

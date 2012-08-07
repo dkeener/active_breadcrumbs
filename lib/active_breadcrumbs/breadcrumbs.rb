@@ -1,7 +1,8 @@
+require 'cgi'
+    
 module ActiveBreadcrumbs
 
   module Breadcrumbs
-    require 'CGI'
 
     BREADCRUMB_SIZE_LIMIT = 30
 

@@ -2,15 +2,15 @@
 
 Gem::Specification.new do |s|
   s.name = "active_breadcrumbs"
-  s.version = "0.6.0"
+  s.version = "0.6.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Keener"]
-  s.date = "2012-08-06"
+  s.date = "2012-08-07"
   s.description = "This gem makes it easy to generate breadcrumb trails in a Rails application.\nThe emphasis is on \"structural\" breadcrumbs, where a breadcrumb trail reflects\nthe logical structure of a web site (as opposed to a \"dynamic\" trail, which\nreflects where the user has been - for which I humbbly suggest the user take\nadvantage of the browser's Back button)."
   s.email = "dkeener@keenertech.com"
   s.extra_rdoc_files = ["History.txt"]
-  s.files = [".bnsignore", ".gitignore", "Gemfile", "History.txt", "README.md", "Rakefile", "active_breadcrumbs.gemspec", "lib/active_breadcrumbs.rb", "lib/active_breadcrumbs/breadcrumbs.rb", "lib/active_breadcrumbs/breadcrumbs_tester.rb", "spec/active_breadcrumbs_spec.rb", "spec/spec_helper.rb", "test/test_active_breadcrumbs.rb", "version.txt"]
+  s.files = [".bnsignore", ".gitignore", "Gemfile", "History.txt", "README.md", "Rakefile", "lib/active_breadcrumbs.rb", "lib/active_breadcrumbs/breadcrumbs.rb", "lib/active_breadcrumbs/breadcrumbs_tester.rb", "spec/active_breadcrumbs_spec.rb", "spec/spec_helper.rb", "test/test_active_breadcrumbs.rb", "version.txt"]
   s.homepage = "http://www.keenertech.com"
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
