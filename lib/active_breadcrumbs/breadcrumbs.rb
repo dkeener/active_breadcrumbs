@@ -48,7 +48,9 @@ module ActiveBreadcrumbs
 
         str = ""
         if crumbs.size > 0
-          str += '<div id="breadcrumbs">'
+          if opts && opts[:css]
+            str += '<div id="breadcrumbs">'
+          end
           if direction == 'right'
             i = 0
             while i < crumbs.size
@@ -66,8 +68,9 @@ module ActiveBreadcrumbs
               i -= 2
             end
           end
-
-          str += '</div>'
+          if opts && opts[:css]
+            str += '</div>'
+          end
         end
 
         defined?(ActionController::Base) ? str.html_safe : str
