@@ -3,6 +3,21 @@ require 'cgi'
 module ActiveBreadcrumbs
 
   module Breadcrumbs
+    class PairIterator 
+      def initialize(pairs)
+        @pairs = pairs
+      end
+
+      def each(&block)
+        iterated_pairs = @pairs.clone
+        while !iterated_pairs.empty?
+          first = iterated_pairs.shift
+          second = iterated_pairs.shift
+          yield first,second
+        end
+      end
+    end
+
 
     BREADCRUMB_SIZE_LIMIT = 30
 
@@ -35,8 +50,13 @@ module ActiveBreadcrumbs
       #        :separator => "&gt;") %>
 
       def breadcrumbs(crumbs,opts={})
-        if opts[:content_tag] 
-          binding.pry
+        if opts[:bootstrap] 
+          pairs = PairIterator.new(crumbs)
+          pairs.each do |title,url|
+            str += "<li>"
+            str += build_crumb(title,url)
+            str += "</li>"
+          end
         else
           direction = 'right'                        # Default direction
           separator = breadcrumb_separator_right     # Default separator
