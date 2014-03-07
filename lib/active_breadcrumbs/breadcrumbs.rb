@@ -3,18 +3,31 @@ require 'cgi'
 module ActiveBreadcrumbs
 
   module Breadcrumbs
-    class PairIterator 
-      def initialize(pairs)
-        @pairs = pairs
+    class Crumb
+      def initialize(title,path)
+        @title = title
+        @path = path
       end
 
-      def each(&block)
-        iterated_pairs = @pairs.clone
-        while !iterated_pairs.empty?
-          first = iterated_pairs.shift
-          second = iterated_pairs.shift
-          yield first,second
+      def to_bootstrap
+        "<li><a href='#{@path}'>#{@title}</a></li>"
+      end
+    end
+
+    class Crumbs 
+      def initialize(crumbs)
+        @crumbs = crumbs
+      end
+
+      def to_crumbs
+        pairs = []
+        crumbs = @crumbs.clone
+        while !crumbs.empty?
+          title = crumbs.shift
+          path = crumbs.shift
+          pairs << Crumb.new(title,path)
         end
+        pairs
       end
     end
 
@@ -51,12 +64,10 @@ module ActiveBreadcrumbs
 
       def breadcrumbs(crumbs,opts={})
         if opts[:bootstrap] 
-          pairs = PairIterator.new(crumbs)
-          pairs.each do |title,url|
-            str += "<li>"
-            str += build_crumb(title,url)
-            str += "</li>"
-          end
+          crumbs = Crumbs.new(crumbs)
+          crumbs = crumbs.to_crumbs
+          bootstrap_crumbs = crumbs.map(&:to_bootstrap)
+          str = bootstrap_crumbs.join
         else
           direction = 'right'                        # Default direction
           separator = breadcrumb_separator_right     # Default separator
@@ -68,7 +79,6 @@ module ActiveBreadcrumbs
             end
             separator = opts[:separator] if opts[:separator]
           end
-
           str = ""
           if crumbs.size > 0
             if opts[:css]
@@ -96,7 +106,6 @@ module ActiveBreadcrumbs
             end
           end
         end
-
         defined?(ActionController::Base) ? str.html_safe : str
       end
 
