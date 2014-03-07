@@ -63,7 +63,7 @@ module ActiveBreadcrumbs
       #        :separator => "&gt;") %>
 
       def breadcrumbs(crumbs,opts={})
-        if opts[:bootstrap] 
+        if !opts[:bootstrap] 
           crumbs = Crumbs.new(crumbs)
           crumbs = crumbs.to_crumbs
           bootstrap_crumbs = crumbs.map(&:to_bootstrap)
