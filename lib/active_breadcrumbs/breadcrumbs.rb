@@ -34,42 +34,46 @@ module ActiveBreadcrumbs
       #        :direction => 'left',
       #        :separator => "&gt;") %>
 
-      def breadcrumbs(crumbs, opts = nil)
-        direction = 'right'                        # Default direction
-        separator = breadcrumb_separator_right     # Default separator
-        if opts != nil
-          dir = opts[:direction].to_s
-          if dir == 'left'
-            direction = dir
-            separator = breadcrumb_separator_left
+      def breadcrumbs(crumbs,options={})
+        if options[:content_tag] 
+          binding.pry
+        else
+          direction = 'right'                        # Default direction
+          separator = breadcrumb_separator_right     # Default separator
+          if !opts.empty?
+            dir = opts[:direction].to_s
+            if dir == 'left'
+              direction = dir
+              separator = breadcrumb_separator_left
+            end
+            separator = opts[:separator] if opts[:separator]
           end
-          separator = opts[:separator] if opts[:separator]
-        end
 
-        str = ""
-        if crumbs.size > 0
-          if opts && opts[:css]
-            str += '<div id="breadcrumbs">'
-          end
-          if direction == 'right'
-            i = 0
-            while i < crumbs.size
-              url = crumbs[i + 1]
-              str += "&nbsp;#{separator}&nbsp;" if i > 0
-              str += build_crumb(crumbs[i], url)
-              i += 2
+          str = ""
+          if crumbs.size > 0
+            if opts[:css]
+              str += '<div id="breadcrumbs">'
             end
-          else # Direction equals left
-            i = crumbs.size - 2
-            while i >= 0
-              url = crumbs[i + 1]
-              str += "&nbsp;#{separator}&nbsp;" if i < (crumbs.size - 2)
-              str += build_crumb(crumbs[i], url)
-              i -= 2
+            if direction == 'right'
+              i = 0
+              while i < crumbs.size
+                url = crumbs[i + 1]
+                str += "&nbsp;#{separator}&nbsp;" if i > 0
+                str += build_crumb(crumbs[i], url)
+                i += 2
+              end
+            else # Direction equals left
+              i = crumbs.size - 2
+              while i >= 0
+                url = crumbs[i + 1]
+                str += "&nbsp;#{separator}&nbsp;" if i < (crumbs.size - 2)
+                str += build_crumb(crumbs[i], url)
+                i -= 2
+              end
             end
-          end
-          if opts && opts[:css]
-            str += '</div>'
+            if opts[:css]
+              str += '</div>'
+            end
           end
         end
 
