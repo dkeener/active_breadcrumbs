@@ -34,8 +34,8 @@ module ActiveBreadcrumbs
       #        :direction => 'left',
       #        :separator => "&gt;") %>
 
-      def breadcrumbs(crumbs,options={})
-        if options[:content_tag] 
+      def breadcrumbs(crumbs,opts={})
+        if opts[:content_tag] 
           binding.pry
         else
           direction = 'right'                        # Default direction
