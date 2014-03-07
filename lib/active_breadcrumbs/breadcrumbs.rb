@@ -3,6 +3,34 @@ require 'cgi'
 module ActiveBreadcrumbs
 
   module Breadcrumbs
+    class Crumb
+      def initialize(title,path)
+        @title = title
+        @path = path
+      end
+
+      def to_bootstrap
+        "<li><a href='#{@path}'>#{@title}</a></li>"
+      end
+    end
+
+    class Crumbs 
+      def initialize(crumbs)
+        @crumbs = crumbs
+      end
+
+      def to_crumbs
+        pairs = []
+        crumbs = @crumbs.clone
+        while !crumbs.empty?
+          title = crumbs.shift
+          path = crumbs.shift
+          pairs << Crumb.new(title,path)
+        end
+        pairs
+      end
+    end
+
 
     BREADCRUMB_SIZE_LIMIT = 30
 
@@ -34,42 +62,50 @@ module ActiveBreadcrumbs
       #        :direction => 'left',
       #        :separator => "&gt;") %>
 
-      def breadcrumbs(crumbs, opts = nil)
-        direction = 'right'                        # Default direction
-        separator = breadcrumb_separator_right     # Default separator
-        if opts != nil
-          dir = opts[:direction].to_s
-          if dir == 'left'
-            direction = dir
-            separator = breadcrumb_separator_left
-          end
-          separator = opts[:separator] if opts[:separator]
-        end
-
-        str = ""
-        if crumbs.size > 0
-          str += '<div id="breadcrumbs">'
-          if direction == 'right'
-            i = 0
-            while i < crumbs.size
-              url = crumbs[i + 1]
-              str += "&nbsp;#{separator}&nbsp;" if i > 0
-              str += build_crumb(crumbs[i], url)
-              i += 2
+      def breadcrumbs(crumbs,opts={})
+        if !opts[:bootstrap] 
+          crumbs = Crumbs.new(crumbs)
+          crumbs = crumbs.to_crumbs
+          bootstrap_crumbs = crumbs.map(&:to_bootstrap)
+          str = bootstrap_crumbs.join
+        else
+          direction = 'right'                        # Default direction
+          separator = breadcrumb_separator_right     # Default separator
+          if !opts.empty?
+            dir = opts[:direction].to_s
+            if dir == 'left'
+              direction = dir
+              separator = breadcrumb_separator_left
             end
-          else # Direction equals left
-            i = crumbs.size - 2
-            while i >= 0
-              url = crumbs[i + 1]
-              str += "&nbsp;#{separator}&nbsp;" if i < (crumbs.size - 2)
-              str += build_crumb(crumbs[i], url)
-              i -= 2
+            separator = opts[:separator] if opts[:separator]
+          end
+          str = ""
+          if crumbs.size > 0
+            if opts[:css]
+              str += '<div id="breadcrumbs">'
+            end
+            if direction == 'right'
+              i = 0
+              while i < crumbs.size
+                url = crumbs[i + 1]
+                str += "&nbsp;#{separator}&nbsp;" if i > 0
+                str += build_crumb(crumbs[i], url)
+                i += 2
+              end
+            else # Direction equals left
+              i = crumbs.size - 2
+              while i >= 0
+                url = crumbs[i + 1]
+                str += "&nbsp;#{separator}&nbsp;" if i < (crumbs.size - 2)
+                str += build_crumb(crumbs[i], url)
+                i -= 2
+              end
+            end
+            if opts[:css]
+              str += '</div>'
             end
           end
-
-          str += '</div>'
         end
-
         defined?(ActionController::Base) ? str.html_safe : str
       end
 
